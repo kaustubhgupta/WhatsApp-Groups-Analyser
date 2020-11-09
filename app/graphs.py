@@ -4,7 +4,6 @@ import plotly.express as px
 import json
 
 def activityDate_Graph(df):
-    y = df['Number of Messages'].values
     fig_batch = {
                     'data': [
                         go.Scatter(

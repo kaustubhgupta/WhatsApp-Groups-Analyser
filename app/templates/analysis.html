@@ -3,9 +3,10 @@
 {% block body %}
 <h2>Normal Stats</h2>
 <div class="container" align="center">
-  total : {{total_emojis}}
-  unique : {{unique_emojis}}
-  ratio : {{media_ratio}}
+  total emojis : {{total_emojis}} <br>
+  unique emojis: {{unique_emojis}} <br>
+  media ratio : {{media_ratio}} <br>
+  total messages: {{total}}
 </div>
 
 <h2>Frequent Emojis</h2>
@@ -45,5 +46,34 @@
 <h2>Night Owls</h2>
 <div align="center">
   {{ night|safe }}
+</div>
+
+<h2>Emoji Con</h2>
+<div align="center">
+  {{ emoji_con|safe }}
+</div>
+
+<h2>Emoji Less</h2>
+<div align="center">
+  {{ emoji_less|safe }}
+</div>
+
+<h2>Holidays Stats</h2>
+<h3>Top Authors</h3>
+<div align="center">
+  {% for key, value in holiday_authors.items() %}
+    <h4>Event: {{key}}</h4>
+    <br>
+    {{ value|safe }} 
+  {% endfor %}
+</div>
+
+<h3>Frequent Emojis</h3>
+<div align="center">
+  {% for key, value in holiday_freq_emojis.items() %}
+    <h4>Event: {{key}}</h4> 
+    <br>
+    {{ value|safe }} 
+  {% endfor %}
 </div>
 {% endblock body %}

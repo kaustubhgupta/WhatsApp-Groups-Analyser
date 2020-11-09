@@ -237,8 +237,6 @@ class GenerateStats:
         df_dict = {}
         for date, event in self.holidays_dict.items():
             temp = df[(df.Date.dt.day==date.day) & (df.Date.dt.month==date.month)]
-            if temp.empty:
-                temp = None
             df_dict[event] = temp
 
         return df_dict
@@ -275,6 +273,7 @@ class GenerateStats:
         '''
         df_dict_n2 = {}
         temp2 = pd.DataFrame(df.groupby('Author').Emoji_num.sum().sort_values(ascending=False))
+        temp2 = temp2.rename(columns={'Emoji_num': 'Number of Emojis'})
         if temp2.shape[0] > 3:
             df_dict_n2['Emoji_con'] = temp2[:3]
             df_dict_n2['Emoji_less'] = temp2[-3:][::-1]

@@ -44,19 +44,33 @@ def processing_phase(file_name):
         datesActivityGraph = activityDate_Graph(result_dates)
         result_time = stats.activityOverTime(df)
         timeActivityGraph = activityTime_Graph(result_time)
+        morn_night = stats.nightOwls_earlyBirds(df)
+        morning = morn_night['morning']
+        night = morn_night['night']
+        con_less = stats.emojiCon_Emojiless(df)
+        emoji_con = con_less['Emoji_con']
+        emoji_less = con_less['Emoji_less']
+        holidays = stats.holidays_dict
+        returned = stats.holidaysDataFrame(df)
+        holiday_authors = {}
+        holiday_freq_emojis = {}
+        for i in holidays.values():
+            if not returned[i].empty:
+                holiday_authors[i] = stats.activeMembers(returned[i]).to_html()
+                holiday_freq_emojis[i] = stats.frequentEmojis(returned[i]).to_html()
         
-
     except:
         abort(404)
-    morn_night = stats.nightOwls_earlyBirds(df)
-    morning = morn_night['morning']
-    night = morn_night['night']
+    
 
-    return render_template('analysis.html', total_emojis=total_emojis, 
+    return render_template('analysis.html', total_emojis=total_emojis, total = df.shape[0],
                             media_ratio=media_ratio, unique_emojis=unique_emojis,
                             frequent_emojis=frequent_emojis.to_html(classes='frequent_emojis'),
                             active_members=active_members.to_html(classes='active_members'),
                             lazy_members=lazy_members.to_html(classes='lazy_members'),
                             bar_plot1=datesActivityGraph, bar_plot2=timeActivityGraph,
                             morning = morning.to_html(classes='morning'), 
-                            night=night.to_html(classes='night'),)
+                            night=night.to_html(classes='night'),
+                            emoji_con = emoji_con.to_html(classes='emoji_con'),
+                            emoji_less = emoji_less.to_html(classes='emoji_less'),
+                            holiday_authors=holiday_authors, holiday_freq_emojis=holiday_freq_emojis)
