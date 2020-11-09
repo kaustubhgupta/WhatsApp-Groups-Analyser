@@ -1,18 +1,49 @@
 {% extends 'base.html' %}
 {% block title %} Report {% endblock title %}
 {% block body %}
+<h2>Normal Stats</h2>
 <div class="container" align="center">
-    total : {{total_emojis}}
-    unique : {{unique_emojis}}
-    ratio : {{media_ratio}}
+  total : {{total_emojis}}
+  unique : {{unique_emojis}}
+  ratio : {{media_ratio}}
 </div>
+
+<h2>Frequent Emojis</h2>
 <div align="center">
-    {{ frequent_emojis|safe }}
-  </div>
+  {{ frequent_emojis|safe }}
+</div>
+
+<h2>Active Members</h2>
 <div align="center">
-    {{ active_members|safe }}
-  </div>
+  {{ active_members|safe }}
+</div>
+
+<h2>Lazy Menbers</h2>
 <div align="center">
-    {{ lazy_members|safe }}
-  </div>
+  {{ lazy_members|safe }}
+</div>
+
+<div class="chart" id="bargraph1">
+  <script>
+    var graphs = {{ bar_plot1 | safe}};
+    Plotly.plot('bargraph1', graphs, {});
+  </script>
+</div>
+
+<div class="chart" id="bargraph2">
+  <script>
+    var graphs = {{ bar_plot2 | safe}};
+    Plotly.plot('bargraph2', graphs, {});
+  </script>
+</div>
+
+<h2>Early Birds</h2>
+<div align="center">
+  {{ morning|safe }}
+</div>
+
+<h2>Night Owls</h2>
+<div align="center">
+  {{ night|safe }}
+</div>
 {% endblock body %}

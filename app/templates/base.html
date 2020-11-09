@@ -9,31 +9,40 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-    
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
   <title>{% block title %} {% endblock title %}</title>
   <style>
-  table.dataframe, .dataframe th, .dataframe td {
-  border: none;
-  border-bottom: 1px solid #C8C8C8;
-  border-collapse: collapse;
-  text-align:left;
-  padding: 10px;
-  margin-bottom: 40px;
-  font-size: 0.9em;
-}
+    table.dataframe,
+    .dataframe th,
+    .dataframe td {
+      border: none;
+      border-bottom: 1px solid #C8C8C8;
+      border-collapse: collapse;
+      text-align: left;
+      padding: 10px;
+      margin-bottom: 40px;
+      font-size: 0.9em;
+    }
 
-tr:nth-child(odd)		{ background-color:#eee; }
-tr:nth-child(even)	{ background-color:#fff; }
+    tr:nth-child(odd) {
+      background-color: #eee;
+    }
 
-tr:hover            { background-color: #ffff99;}
+    tr:nth-child(even) {
+      background-color: #fff;
+    }
+
+    tr:hover {
+      background-color: #ffff99;
+    }
   </style>
 </head>
 
 <body>
 
-<!-- Navigation Bar -->
+  <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">WhatsApp Chats Analyser</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -56,10 +65,10 @@ tr:hover            { background-color: #ffff99;}
     </div>
   </nav>
 
-<!-- Body Block -->
+  <!-- Body Block -->
   {% block body %} {% endblock body %}
 
-<!-- Optional JavaScript -->
+  <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

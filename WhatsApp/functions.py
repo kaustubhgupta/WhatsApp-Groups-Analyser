@@ -69,6 +69,9 @@ class ExtractDataFrame:
         f = self.load_file()
         f.readline()
         full_message = []
+        date = ''
+        time = ''
+        author = ''
         while True:
             line = f.readline()
             if not line:
@@ -133,8 +136,8 @@ class GenerateStats:
         frequentEmojis(object, dataframe) -> dataframe
         activeMembers(object, dataframe) -> dataframe
         lazyMembers(object, dataframe) -> dataframe
-        activityOverDates(object, dataframe) -> matplotlib_graph
-        activityOverTime(object, dataframe) -> matplotlib_graph
+        activityOverDates(object, dataframe) -> dataframe
+        activityOverTime(object, dataframe) -> dataframe
         holidaysDataFrame(object, dataframe) -> dict
         nightOwls_earlyBirds(object, dataframe) -> dict
         emojiCon_Emojiless(object, dataframe) -> dict
@@ -210,25 +213,22 @@ class GenerateStats:
         
     def activityOverDates(self, df) -> object:
         '''
-        This function returns matplotlib line graph showing activity of the group over the 
+        This function returns dataframe of activity of the group over the 
         all the dates
         '''
-    
-        # will make it plotly interactive
-        plt.xlabel('Timeline')
-        plt.ylabel('Number of messages')
-        return df['Date'].value_counts().plot()
+        result = df.groupby('Date').sum()
+        result = result.rename(columns={'Emoji_num': 'Number of Messages'})
+        return result
     
     def activityOverTime(self, df) -> object:
         '''
-        This function returns matplotlib line graph showing activity of the group over the 
+        This function returns dataframe of activity of the group over the 
         all whole day
         '''
     
-        # will make it plotly interactive
-        plt.xlabel('Time')
-        plt.ylabel('Number of messages')
-        return df['Time'].value_counts().plot()
+        result = df.groupby('Time').sum()
+        result = result.rename(columns={'Emoji_num': 'Number of Messages'})
+        return result
     
     def holidaysDataFrame(self, df) -> dict:
         '''
@@ -254,8 +254,10 @@ class GenerateStats:
         temp = pd.to_datetime(df.Time)
         morning_mask = (temp.dt.hour >= 6) & (temp.dt.hour <=9)
         night_mask = ~((temp.dt.hour >= 3) & (temp.dt.hour <=23))
-        df_dict_n['morning'] = df[morning_mask].Author.value_counts()
-        df_dict_n['night'] = df[night_mask].Author.value_counts()
+        df_dict_n['morning'] = pd.DataFrame(df[morning_mask].Author.value_counts())
+        df_dict_n['night'] = pd.DataFrame(df[night_mask].Author.value_counts())
+        df_dict_n['morning'] = df_dict_n['morning'].rename(columns={'Author':'Message Count'})
+        df_dict_n['night'] = df_dict_n['night'].rename(columns={'Author':'Message Count'})
         
         if df_dict_n['morning'].shape[0] > 3:
             df_dict_n['morning'] = df_dict_n['morning'][:3]

@@ -1,11 +1,8 @@
 from flask import current_app as app
 from flask import render_template, request, redirect, abort, Markup
 from WhatsApp.functions import ExtractDataFrame, GenerateStats
+from app.graphs import *
 import os
-import plotly
-import plotly.graph_objs as go
-import pandas as pd
-import json
 
 
 @app.errorhandler(404)
@@ -43,12 +40,23 @@ def processing_phase(file_name):
         frequent_emojis = stats.frequentEmojis(df)
         active_members = stats.activeMembers(df)
         lazy_members = stats.lazyMembers(df)
+        result_dates = stats.activityOverDates(df)
+        datesActivityGraph = activityDate_Graph(result_dates)
+        result_time = stats.activityOverTime(df)
+        timeActivityGraph = activityTime_Graph(result_time)
+        
 
     except:
         abort(404)
+    morn_night = stats.nightOwls_earlyBirds(df)
+    morning = morn_night['morning']
+    night = morn_night['night']
 
     return render_template('analysis.html', total_emojis=total_emojis, 
                             media_ratio=media_ratio, unique_emojis=unique_emojis,
                             frequent_emojis=frequent_emojis.to_html(classes='frequent_emojis'),
                             active_members=active_members.to_html(classes='active_members'),
-                            lazy_members=lazy_members.to_html(classes='lazy_members'),)
+                            lazy_members=lazy_members.to_html(classes='lazy_members'),
+                            bar_plot1=datesActivityGraph, bar_plot2=timeActivityGraph,
+                            morning = morning.to_html(classes='morning'), 
+                            night=night.to_html(classes='night'),)
