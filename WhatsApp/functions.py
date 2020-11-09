@@ -189,6 +189,7 @@ class GenerateStats:
         If there are less than 5 active members then whole dataframe is returned
         '''
         authors = pd.DataFrame(df.Author.value_counts())
+        authors = authors.rename(columns={'Author': 'Message Count'})
         if authors.shape[0] < 5:
             return authors
         else:
@@ -200,6 +201,8 @@ class GenerateStats:
         If there are less than 5 lazy members then whole dataframe is returned
         '''
         authors = pd.DataFrame(df.Author.value_counts())
+        authors = authors.rename(columns={'Author': 'Message Count'})
+
         if authors.shape[0] < 5:
             return authors[::-1]
         else:

@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    total : {{total}}
-    unique : {{unique}}
-    ratio : {{ratio}}
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %} Report {% endblock title %}
+{% block body %}
+<div class="container" align="center">
+    total : {{total_emojis}}
+    unique : {{unique_emojis}}
+    ratio : {{media_ratio}}
+</div>
+<div align="center">
+    {{ frequent_emojis|safe }}
+  </div>
+<div align="center">
+    {{ active_members|safe }}
+  </div>
+<div align="center">
+    {{ lazy_members|safe }}
+  </div>
+{% endblock body %}
