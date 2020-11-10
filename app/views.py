@@ -1,5 +1,5 @@
 from flask import current_app as app
-from flask import render_template, request, redirect, abort, Markup
+from flask import render_template, request, redirect, abort
 from WhatsApp.functions import ExtractDataFrame, GenerateStats
 from app.graphs import *
 import os
@@ -31,38 +31,52 @@ def processing_phase(file_name):
     try:
         chats = ExtractDataFrame(os.path.join('uploads/' + file_name))
         chats.process()
-        df = chats.dataframe()
-        #os.remove(os.path.join('uploads/' + file_name))
+        df = chats.dataframe()  # The Final Processed DataFrame 
+
+        os.remove(os.path.join('uploads/' + file_name))
         stats = GenerateStats()
-        media_ratio = round(stats.mediaRatio(df),2)
-        total_emojis = stats.totalEmojis(df) 
-        unique_emojis = stats.uniqueEmojis(df) 
+
+        media_ratio = round(stats.mediaRatio(df),2)  # Media Ratio
+
+        total_emojis = stats.totalEmojis(df)  # Total Emojis
+
+        unique_emojis = stats.uniqueEmojis(df)  # Total Unique Emojis
+
         frequent_emojis = stats.frequentEmojis(df)
-        emoji_donut = frequentEmojis_donut(frequent_emojis)
+        emoji_donut = Emojis_donut(frequent_emojis ,'Emoji Distribution')  # Emojis Donut Plot
+
         active_members = stats.activeMembers(df)
-        activeMemberPlot = membersBarPlot(active_members, 'Active Members of The Group')
+        activeMemberPlot = membersBarPlot(active_members, 'Active Members of The Group')  # Active Members Bar Chart
+
         lazy_members = stats.lazyMembers(df)
-        lazyMemberPlot = membersBarPlot(lazy_members, 'Lazy Members of The Group')
+        lazyMemberPlot = membersBarPlot(lazy_members, 'Lazy Members of The Group')  # Lazy Members Bar Chart
+        
         result_dates = stats.activityOverDates(df)
-        datesActivityGraph = activityDate_Graph(result_dates)
+        datesActivityGraph = activityDate_Graph(result_dates)  # Overall Dates Activity Line Plot
+
         result_time = stats.activityOverTime(df)
-        timeActivityGraph = activityTime_Graph(result_time)
+        timeActivityGraph = activityTime_Graph(result_time)  # Overall Day Activity Line Plot
+
         morn_night = stats.nightOwls_earlyBirds(df)
         morning = morn_night['morning']
-        morning_plot = night_morningPlot(morning, 'Early Birds (6 am to 9 am)')
+        morning_plot = night_morningPlot(morning, 'Early Birds (6 am to 9 am)')  # Morning Authors Pie Chart
         night = morn_night['night']
-        night_plot = night_morningPlot(night, 'Night Owls (11 pm to 3 am)')
+        night_plot = night_morningPlot(night, 'Night Owls (11 pm to 3 am)')  # Night Authors Pie Chart
+
         con_less = stats.emojiCon_Emojiless(df)
         emoji_con = con_less['Emoji_con']
-        emoji_less = con_less['Emoji_less']
+        emojiAdictsPlot = emojiAdicts_LessPlot(emoji_con, 'Emoji Addicts')  # Emoji Addict Bar Chart
+
         holidays = stats.holidays_dict
         returned = stats.holidaysDataFrame(df)
         holiday_authors = {}
         holiday_freq_emojis = {}
+        j = 1
         for i in holidays.values():
             if not returned[i].empty:
-                holiday_authors[i] = stats.activeMembers(returned[i]).to_html()
-                holiday_freq_emojis[i] = stats.frequentEmojis(returned[i]).to_html()
+                holiday_authors['eventGraphAuthor'+str(j)] = membersBarPlot(stats.activeMembers(returned[i]), i)  # Holidays Author Bar Plot 
+                holiday_freq_emojis['eventGraphEmoji'+str(j)] = Emojis_donut(stats.frequentEmojis(returned[i]),i)  # Holidays Emojis Donut Plot
+                j += 1
         
     except:
         abort(404)
@@ -71,12 +85,8 @@ def processing_phase(file_name):
     return render_template('analysis.html', total_emojis=total_emojis, total=df.shape[0],
                             media_ratio=media_ratio, unique_emojis=unique_emojis,
                             activeMemberPlot=activeMemberPlot, lazyMemberPlot=lazyMemberPlot,
-                            bar_plot1=datesActivityGraph, bar_plot2=timeActivityGraph,
+                            bar_plot_dates=datesActivityGraph, bar_plot_time=timeActivityGraph,
                             morning_plot=morning_plot, night_plot=night_plot,
-                            emoji_con=emoji_con.to_html(classes='emoji_con'),
-                            emoji_less=emoji_less.to_html(classes='emoji_less'),
-                            holiday_authors=holiday_authors, holiday_freq_emojis=holiday_freq_emojis,
-                            emoji_donut=emoji_donut)
-
-
-# http://127.0.0.1:5000/process/WhatsApp%20Chat%20with%20Shahbad%20Roots%20-%20Family.txt
+                            emojiAdictsPlot=emojiAdictsPlot, holiday_authors=holiday_authors, 
+                            holiday_freq_emojis=holiday_freq_emojis, emoji_donut=emoji_donut
+                            )

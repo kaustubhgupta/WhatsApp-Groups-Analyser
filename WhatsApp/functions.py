@@ -158,7 +158,7 @@ class GenerateStats:
         '''
         This function returns the percentage of messages which are media
         '''
-        return ((df[df['Message'] != ' <Media omitted> '].Message.count()) / (df.Message.count()))*100
+        return ((df[df['Message'] == ' <Media omitted> '].Message.count()) / (df.Message.count()))*100
     
     def totalEmojis(self, df) -> int:
         '''
@@ -271,14 +271,14 @@ class GenerateStats:
         '''
         This function will returns dict of two dataframes with authors who send most
         emojis and least emojis.
-        If there are less than 3 members then whole dataframe is returned        
+        If there are less than 6 members then whole dataframe is returned        
         '''
         df_dict_n2 = {}
         temp2 = pd.DataFrame(df.groupby('Author').Emoji_num.sum().sort_values(ascending=False))
         temp2 = temp2.rename(columns={'Emoji_num': 'Number of Emojis'})
-        if temp2.shape[0] > 3:
-            df_dict_n2['Emoji_con'] = temp2[:3]
-            df_dict_n2['Emoji_less'] = temp2[-3:][::-1]
+        if temp2.shape[0] > 6:
+            df_dict_n2['Emoji_con'] = temp2[:6]
+            df_dict_n2['Emoji_less'] = temp2[-6:][::-1]
         else:
             df_dict_n2['Emoji_con'] = df_dict_n2['Emoji_less'] = temp2
             
