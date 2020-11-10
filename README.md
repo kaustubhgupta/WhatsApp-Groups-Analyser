@@ -1,2 +1,2 @@
 # WhatsApp-Groups-Analyser
-All details and files coming soon...
+This Web App gives a detailed report about the WhatsApp Group Chats.
