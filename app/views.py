@@ -34,7 +34,7 @@ def processing_phase(file_name):
         df = chats.dataframe()
         #os.remove(os.path.join('uploads/' + file_name))
         stats = GenerateStats()
-        media_ratio = stats.mediaRatio(df) 
+        media_ratio = round(stats.mediaRatio(df),2)
         total_emojis = stats.totalEmojis(df) 
         unique_emojis = stats.uniqueEmojis(df) 
         frequent_emojis = stats.frequentEmojis(df)
@@ -49,7 +49,9 @@ def processing_phase(file_name):
         timeActivityGraph = activityTime_Graph(result_time)
         morn_night = stats.nightOwls_earlyBirds(df)
         morning = morn_night['morning']
+        morning_plot = night_morningPlot(morning, 'Early Birds (6 am to 9 am)')
         night = morn_night['night']
+        night_plot = night_morningPlot(night, 'Night Owls (11 pm to 3 am)')
         con_less = stats.emojiCon_Emojiless(df)
         emoji_con = con_less['Emoji_con']
         emoji_less = con_less['Emoji_less']
@@ -70,8 +72,7 @@ def processing_phase(file_name):
                             media_ratio=media_ratio, unique_emojis=unique_emojis,
                             activeMemberPlot=activeMemberPlot, lazyMemberPlot=lazyMemberPlot,
                             bar_plot1=datesActivityGraph, bar_plot2=timeActivityGraph,
-                            morning=morning.to_html(classes='morning'), 
-                            night=night.to_html(classes='night'),
+                            morning_plot=morning_plot, night_plot=night_plot,
                             emoji_con=emoji_con.to_html(classes='emoji_con'),
                             emoji_less=emoji_less.to_html(classes='emoji_less'),
                             holiday_authors=holiday_authors, holiday_freq_emojis=holiday_freq_emojis,

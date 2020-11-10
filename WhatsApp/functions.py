@@ -247,7 +247,7 @@ class GenerateStats:
         This function will returns dict of two dataframes with authors who send most
         messages in night between 11 pm to 3 am and between 6 am to 9 am in the
         morning.
-        If there are less than 3 members then whole dataframe is returned        
+        If there are less than 5 members then whole dataframe is returned        
         '''
         df_dict_n = {}
         temp = pd.to_datetime(df.Time)
@@ -257,12 +257,13 @@ class GenerateStats:
         df_dict_n['night'] = pd.DataFrame(df[night_mask].Author.value_counts())
         df_dict_n['morning'] = df_dict_n['morning'].rename(columns={'Author':'Message Count'})
         df_dict_n['night'] = df_dict_n['night'].rename(columns={'Author':'Message Count'})
+        df_dict_n['night'].index.name = df_dict_n['morning'].index.name = 'Author'
         
-        if df_dict_n['morning'].shape[0] > 3:
-            df_dict_n['morning'] = df_dict_n['morning'][:3]
+        if df_dict_n['morning'].shape[0] > 5:
+            df_dict_n['morning'] = df_dict_n['morning'][:5]
             
-        if df_dict_n['night'].shape[0] >3:
-            df_dict_n['night'] = df_dict_n['night'][:3]
+        if df_dict_n['night'].shape[0] >5:
+            df_dict_n['night'] = df_dict_n['night'][:5]
             
         return df_dict_n
     

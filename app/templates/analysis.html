@@ -5,7 +5,7 @@
 <div class="container" align="center">
   total emojis : {{total_emojis}} <br>
   unique emojis: {{unique_emojis}} <br>
-  media ratio : {{media_ratio}} <br>
+  media ratio : {{media_ratio}} % <br>
   total messages: {{total}}
 </div>
 
@@ -44,14 +44,18 @@
   </script>
 </div>
 
-<h2>Early Birds</h2>
-<div align="center">
-  {{ morning|safe }}
+<div class="chart" id="morninggraph">
+  <script>
+    var graphs = {{ morning_plot | safe}};
+    Plotly.plot('morninggraph', graphs, {});
+  </script>
 </div>
 
-<h2>Night Owls</h2>
-<div align="center">
-  {{ night|safe }}
+<div class="chart" id="nightgraph">
+  <script>
+    var graphs = {{ night_plot | safe}};
+    Plotly.plot('nightgraph', graphs, {});
+  </script>
 </div>
 
 <h2>Emoji Con</h2>

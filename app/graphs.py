@@ -12,14 +12,14 @@ def activityDate_Graph(df):
                             y=df['Number of Messages'].values,
                             # text=y,
                             # textposition='auto',
-                            mode='lines+markers'
+                            mode='lines'
                         )],
 
                     'layout': go.Layout(
                         xaxis={'title': 'Dates'},
                         yaxis={'title': 'Number of Messages'},
                         hovermode='closest',
-                        title='Activity Over Whole Timeline'
+                        title='Overall Activity of The Group'
                     )}
     graphJSON = json.dumps(fig_batch, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
@@ -34,7 +34,7 @@ def activityTime_Graph(df):
                             y=df['Number of Messages'].values,
                             # text=y,
                             # textposition='auto',
-                            mode='lines+markers',
+                            mode='lines',
                         )],
 
                     'layout': go.Layout(
@@ -66,6 +66,17 @@ def membersBarPlot(df, title):
     fig = px.bar(df, x=df.index, y=df['Message Count'].values, 
                 labels={'y':'Number of Messages'}, text=df['Message Count'].values, title=title,
              )
-    fig.update_layout(xaxis_tickangle=-45)
+    fig.update_layout(xaxis_tickangle=-30)
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
+def night_morningPlot(df, title):
+    labels = df.index
+    values = df['Message Count'].values
+    fig = go.Figure(data=[
+                    go.Pie(labels=labels, values=values, textinfo='label+percent',
+                             insidetextorientation='radial', title=title)
+                    ])
+
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
