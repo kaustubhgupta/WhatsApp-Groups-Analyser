@@ -1,5 +1,5 @@
 pandas
 emoji
-matplotlib
 flask
 gunicorn
+plotly
