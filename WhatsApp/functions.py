@@ -189,14 +189,15 @@ class GenerateStats:
     def activeMembers(self, df) -> object:
         '''
         This function returns dataframe object consisting of active members of the group.
-        If there are less than 5 active members then whole dataframe is returned
+        If there are less than 8 active members then whole dataframe is returned
         '''
         authors = pd.DataFrame(df.Author.value_counts())
         authors = authors.rename(columns={'Author': 'Message Count'})
-        if authors.shape[0] < 5:
+        authors.index.name = 'Author'
+        if authors.shape[0] < 8:
             return authors
         else:
-            return authors[:5]
+            return authors[:8]
         
     def lazyMembers(self, df) -> object:
         '''
@@ -205,7 +206,7 @@ class GenerateStats:
         '''
         authors = pd.DataFrame(df.Author.value_counts())
         authors = authors.rename(columns={'Author': 'Message Count'})
-
+        authors.index.name = 'Author'
         if authors.shape[0] < 5:
             return authors[::-1]
         else:

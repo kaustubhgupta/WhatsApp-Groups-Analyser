@@ -9,19 +9,25 @@
   total messages: {{total}}
 </div>
 
-<h2>Frequent Emojis</h2>
-<div align="center">
-  {{ frequent_emojis|safe }}
+<div class="chart" id="donutgraph">
+  <script>
+    var graphs = {{ emoji_donut | safe}};
+    Plotly.plot('donutgraph', graphs, {});
+  </script>
 </div>
 
-<h2>Active Members</h2>
-<div align="center">
-  {{ active_members|safe }}
+<div class="chart" id="activeMembergraph">
+  <script>
+    var graphs = {{ activeMemberPlot | safe}};
+    Plotly.plot('activeMembergraph', graphs, {});
+  </script>
 </div>
 
-<h2>Lazy Menbers</h2>
-<div align="center">
-  {{ lazy_members|safe }}
+<div class="chart" id="lazyMembergraph">
+  <script>
+    var graphs = {{ lazyMemberPlot | safe}};
+    Plotly.plot('lazyMembergraph', graphs, {});
+  </script>
 </div>
 
 <div class="chart" id="bargraph1">

@@ -32,14 +32,17 @@ def processing_phase(file_name):
         chats = ExtractDataFrame(os.path.join('uploads/' + file_name))
         chats.process()
         df = chats.dataframe()
-        os.remove(os.path.join('uploads/' + file_name))
+        #os.remove(os.path.join('uploads/' + file_name))
         stats = GenerateStats()
         media_ratio = stats.mediaRatio(df) 
         total_emojis = stats.totalEmojis(df) 
         unique_emojis = stats.uniqueEmojis(df) 
         frequent_emojis = stats.frequentEmojis(df)
+        emoji_donut = frequentEmojis_donut(frequent_emojis)
         active_members = stats.activeMembers(df)
+        activeMemberPlot = membersBarPlot(active_members, 'Active Members of The Group')
         lazy_members = stats.lazyMembers(df)
+        lazyMemberPlot = membersBarPlot(lazy_members, 'Lazy Members of The Group')
         result_dates = stats.activityOverDates(df)
         datesActivityGraph = activityDate_Graph(result_dates)
         result_time = stats.activityOverTime(df)
@@ -63,14 +66,16 @@ def processing_phase(file_name):
         abort(404)
     
 
-    return render_template('analysis.html', total_emojis=total_emojis, total = df.shape[0],
+    return render_template('analysis.html', total_emojis=total_emojis, total=df.shape[0],
                             media_ratio=media_ratio, unique_emojis=unique_emojis,
-                            frequent_emojis=frequent_emojis.to_html(classes='frequent_emojis'),
-                            active_members=active_members.to_html(classes='active_members'),
-                            lazy_members=lazy_members.to_html(classes='lazy_members'),
+                            activeMemberPlot=activeMemberPlot, lazyMemberPlot=lazyMemberPlot,
                             bar_plot1=datesActivityGraph, bar_plot2=timeActivityGraph,
-                            morning = morning.to_html(classes='morning'), 
+                            morning=morning.to_html(classes='morning'), 
                             night=night.to_html(classes='night'),
-                            emoji_con = emoji_con.to_html(classes='emoji_con'),
-                            emoji_less = emoji_less.to_html(classes='emoji_less'),
-                            holiday_authors=holiday_authors, holiday_freq_emojis=holiday_freq_emojis)
+                            emoji_con=emoji_con.to_html(classes='emoji_con'),
+                            emoji_less=emoji_less.to_html(classes='emoji_less'),
+                            holiday_authors=holiday_authors, holiday_freq_emojis=holiday_freq_emojis,
+                            emoji_donut=emoji_donut)
+
+
+# http://127.0.0.1:5000/process/WhatsApp%20Chat%20with%20Shahbad%20Roots%20-%20Family.txt
