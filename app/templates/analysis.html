@@ -1,11 +1,16 @@
-{% extends 'base.html' %}
-{% block title %} Report {% endblock title %}
-{% block body %}
+{% extends 'base.html' %} {% block title %} Report {% endblock title %} {% block
+body %}
 <div class="container" align="center">
   <!-- This is General numberical stats -->
-  <h2> There were <span style="color: #ff0000">{{total_emojis}}</span> Total Emojis , <br> <span
-      style="color: #ff0000">{{unique_emojis}} </span>Unique Emojis, <br><span style="color: #ff0000">{{total}}</span>
-    Total Messages and <br> a Media to Messages Ratio of <span style="color: #ff0000">{{media_ratio}}%</span></h2>
+  <h2>
+    There were <span style="color: #ff0000">{{total_emojis}}</span> Total Emojis
+    , <br />
+    <span style="color: #ff0000">{{unique_emojis}} </span>Unique Emojis,
+    <br /><span style="color: #ff0000">{{total}}</span> Total Messages and
+    <br />
+    a Media to Messages Ratio of
+    <span style="color: #ff0000">{{media_ratio}}%</span>
+  </h2>
 </div>
 
 <!-- This is emojis donut plot -->
@@ -72,12 +77,11 @@
   </script>
 </div>
 
-
 <!-- These are festival/holidays authors stats (Bar chart) -->
 <div>
   {% for key, value in holiday_authors.items() %}
-  <br>
-  <div class="chart" id={{key}}>
+  <br />
+  <div class="chart" id="{{key}}">
     <script>
       var graphs = {{ value | safe}};
       Plotly.plot({{ key }} , graphs, {});
@@ -86,12 +90,11 @@
   {% endfor %}
 </div>
 
-
 <!-- These are festival/holidays emojis stats (donut plot) -->
 <div>
   {% for key, value in holiday_freq_emojis.items() %}
-  <br>
-  <div class="chart" id={{key}}>
+  <br />
+  <div class="chart" id="{{key}}">
     <script>
       var graphs = {{ value | safe}};
       Plotly.plot({{ key }} , graphs, {});
