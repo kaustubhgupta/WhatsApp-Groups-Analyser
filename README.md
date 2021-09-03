@@ -18,7 +18,7 @@ This Web App gives a detailed report about the WhatsApp Group Chats. It takes th
 
 [Is Family Group That Bad? Results Will Shock You](https://towardsdatascience.com/is-family-group-that-bad-results-will-shock-you-573f64e194be)
 
-## Galery
+## Gallery
 
 ![](./app/static/img/1.png)
 ![](./app/static/img/2.png)
